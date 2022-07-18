@@ -1,10 +1,7 @@
 module rngff
-  implicit none
-  private
+    use rngff_RNG_m, only: RNG_t
 
-  public :: say_hello
-contains
-  subroutine say_hello
-    print *, "Hello, rngff!"
-  end subroutine say_hello
-end module rngff
+    implicit none
+    private
+    public :: RNG_t
+end module
