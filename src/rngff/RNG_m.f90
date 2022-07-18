@@ -11,6 +11,7 @@ module rngff_RNG_m
         procedure(next_int64_i), deferred :: next_int64
         procedure(next_real32_i), deferred :: next_real32
         procedure(next_real64_i), deferred :: next_real64
+        generic :: next => next_int32, next_int64, next_real32, next_real64
     end type
 
     abstract interface
