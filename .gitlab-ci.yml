@@ -13,7 +13,7 @@ documentation:
   stage: documentation
   image: python
   script:
-    - pip install ford
+    - pip install ford markdown==3.3.4
     - apt update && apt install -y graphviz gfortran
     - ford doc/front-matter.md
   artifacts:
