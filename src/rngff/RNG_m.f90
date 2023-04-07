@@ -1,3 +1,6 @@
+! Copyright (c) 2022 Archaeologic, Inc., Brad Richardson
+! This software was developed for the U.S. Nuclear Regulatory Commission (US NRC) under contract # 31310020D0006:
+! "Technical Assistance in Support of NRC Nuclear Regulatory Research for Materials, Waste, and Reactor Programs"
 module rngff_RNG_m
     !! Define the operations that should be available from a random number generator
     implicit none

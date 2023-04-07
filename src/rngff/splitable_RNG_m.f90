@@ -1,4 +1,9 @@
+! Copyright (c) 2022 Archaeologic, Inc., Brad Richardson
+! This software was developed for the U.S. Nuclear Regulatory Commission (US NRC) under contract # 31310020D0006:
+! "Technical Assistance in Support of NRC Nuclear Regulatory Research for Materials, Waste, and Reactor Programs"
 module rngff_splitable_RNG_m
+    !! Define an extension of a RNG that can be "split".
+    !! I.e. a new, uncorrelated RNG can be produced from an existing RNG
     use rngff_RNG_m, only: RNG_t
 
     implicit none
