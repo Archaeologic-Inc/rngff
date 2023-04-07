@@ -6,7 +6,6 @@ module rngff_RNG_m
 
     type, abstract :: RNG_t
     contains
-        procedure(split_i), deferred :: split
         procedure(next_int32_i), deferred :: next_int32
         procedure(next_int64_i), deferred :: next_int64
         procedure(next_real32_i), deferred :: next_real32
@@ -15,16 +14,6 @@ module rngff_RNG_m
     end type
 
     abstract interface
-        subroutine split_i(self, new)
-            !! Should create a new random number generator from the current one.
-            !! It should be done in such a way that the two generators are not correlated.
-            !! If this is not possible, this procedure should error stop.
-            import :: RNG_t
-            implicit none
-            class(RNG_t), intent(inout) :: self
-            class(RNG_t), allocatable, intent(out) :: new
-        end subroutine
-
         elemental subroutine next_int32_i(self, harvest)
             !! Produce a random 32 bit integer
             use, intrinsic :: iso_fortran_env, only: int32

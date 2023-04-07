@@ -1,12 +1,12 @@
 module rngff_split_mix_m
     use, intrinsic :: iso_fortran_env, only: int32, int64, real32, real64
-    use rngff_RNG_m, only: RNG_t
+    use rngff_splitable_RNG_m, only: splitable_RNG_t
 
     implicit none
     private
     public :: split_mix_t
 
-    type, extends(RNG_t) :: split_mix_t
+    type, extends(splitable_RNG_t) :: split_mix_t
         private
         integer(int64) :: seed, gamma
     contains
@@ -90,7 +90,7 @@ contains
 
     subroutine split(self, new)
         class(split_mix_t), intent(inout) :: self
-        class(RNG_t), allocatable, intent(out) :: new
+        class(splitable_RNG_t), allocatable, intent(out) :: new
 
         integer(int64) :: seed_, seed__
 
