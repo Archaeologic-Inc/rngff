@@ -139,6 +139,6 @@ contains
         integer(int64) :: harvest_
 
         call self%next(harvest_)
-        harvest = shiftr(harvest_, 11) * double_ulp
+        harvest = shiftr(harvest_, 11_int64) * double_ulp
     end subroutine
 end module
