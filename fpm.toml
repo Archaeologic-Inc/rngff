@@ -4,3 +4,8 @@ license = "MIT"
 author = "Brad Richardson"
 maintainer = "everythingfunctional@protonmail.com"
 copyright = "Copyright 2022, Brad Richardson"
+
+[[executable]]
+name="lcg_64bit_stream"
+source-dir="app"
+main="lcg_64bit_stream.f90"

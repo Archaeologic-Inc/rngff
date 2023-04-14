@@ -42,7 +42,7 @@ contains
 
     elemental subroutine next_int32(self, harvest)
         class(linear_congruential_t), intent(inout) :: self
-        integer(int32) :: harvest
+        integer(int32), intent(out) :: harvest
 
         logical :: negative
         real(real64) :: tmp
@@ -55,7 +55,7 @@ contains
 
     elemental subroutine next_int64(self, harvest)
         class(linear_congruential_t), intent(inout) :: self
-        integer(int64) :: harvest
+        integer(int64), intent(out) :: harvest
 
         logical :: negative
         real(real64) :: tmp
@@ -68,9 +68,10 @@ contains
 
     elemental subroutine next_real32(self, harvest)
         class(linear_congruential_t), intent(inout) :: self
-        integer(real32) :: harvest
+        real(real32), intent(out) :: harvest
 
         integer(int32), parameter, dimension(2) :: m  = [2147483563_int32, 2147483399_int32]
+        real(real64), parameter :: over_m1 = 1._real64 / m(1)
         integer(int32), parameter :: a(2) = [40014_int32, 40692_int32]
         integer(int32), parameter :: b(2) = [53668_int32, 52774_int32]
         integer(int32), parameter :: c(2) = [12211_int32, 3791_int32]
@@ -83,15 +84,15 @@ contains
 
         z = self%seeds_(1) - self%seeds_(2)
         if (z<1) z = z + m(1) - 1
-        harvest = z / m(1)
+        harvest = z * over_m1
         if (harvest >= 1) harvest = 0
     end subroutine
 
     elemental subroutine next_real64(self, harvest)
         class(linear_congruential_t), intent(inout) :: self
-        integer(real64) :: harvest
+        real(real64), intent(out) :: harvest
 
-        integer(real32) :: tmp
+        real(real32) :: tmp
 
         call self%next(tmp)
         harvest = tmp
