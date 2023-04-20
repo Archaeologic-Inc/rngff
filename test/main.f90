@@ -5,9 +5,9 @@ program main
     if (.not.run()) stop 1
 contains
     function run() result(passed)
-        use sanity_test, only: &
-                sanity_sanity => &
-                    test_sanity
+        use lcg_test, only: &
+                lcg_lcg => &
+                    test_lcg
         use veggies, only: test_item_t, test_that, run_tests
 
 
@@ -17,7 +17,7 @@ contains
         type(test_item_t) :: tests
         type(test_item_t) :: individual_tests(1)
 
-        individual_tests(1) = sanity_sanity()
+        individual_tests(1) = lcg_lcg()
         tests = test_that(individual_tests)
 
 

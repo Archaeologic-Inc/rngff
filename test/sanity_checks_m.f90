@@ -1,37 +1,33 @@
-module sanity_test
+module sanity_checks_m
     use, intrinsic :: iso_fortran_env, only: int32
     use iso_varying_string, only: varying_string, operator(==), operator(//)
     use prune, only: report_differences
-    use rngff, only: linear_congruential_t, RNG_t
+    use rngff, only: RNG_t
     use strff, only: to_string
     use veggies, only: &
             input_t, &
             result_t, &
             test_item_t, &
-            describe, &
             fail, &
             it_, &
             succeed
 
     implicit none
     private
-    public :: test_sanity
+    public :: rng_input_t, sanity_checks, DISTRIBUTION_DESCRIPTION
 
     type, extends(input_t) :: rng_input_t
         class(RNG_t), allocatable :: rng
     end type
+
+    character(len=*), parameter :: DISTRIBUTION_DESCRIPTION = &
+            "should produce a uniform distribution of numbers"
 contains
-    function test_sanity() result(tests)
-        type(test_item_t) :: tests
+    function sanity_checks() result(tests)
+        type(test_item_t), allocatable :: tests(:)
 
-        type(rng_input_t) :: lcg_rng
-
-        lcg_rng%rng = linear_congruential_t(12345, 67890)
-        tests = describe( &
-                "The linear congruential generator should produce a uniform distribution of numbers ", &
-                lcg_rng, &
-                [ it_("between -huge and huge for 32 bit integers", check_32bit_distribution) &
-                ])
+        tests = [ it_("between -huge and huge for 32 bit integers", check_32bit_distribution) &
+                ]
     end function
 
     function check_32bit_distribution(input) result(result_)
