@@ -1,14 +1,17 @@
 module sanity_test
     use, intrinsic :: iso_fortran_env, only: int32
+    use iso_varying_string, only: varying_string, operator(==), operator(//)
+    use prune, only: report_differences
     use rngff, only: linear_congruential_t, RNG_t
+    use strff, only: to_string
     use veggies, only: &
             input_t, &
             result_t, &
             test_item_t, &
-            assert_equals_within_relative, &
             describe, &
             fail, &
-            it_
+            it_, &
+            succeed
 
     implicit none
     private
@@ -39,11 +42,12 @@ contains
         type is (rng_input_t)
             block
                 integer, parameter :: sample_size = 1000000, distribution_size = 100
-                double precision, parameter :: ideal_distribution(distribution_size) = 1.d0/distribution_size
+                real, parameter :: ideal_distribution(distribution_size) = 1./distribution_size
                 integer(int32), allocatable :: samples(:)
-                double precision :: distribution(distribution_size)
+                real :: distribution(distribution_size)
                 integer :: i
                 class(RNG_t), allocatable :: the_rng
+                type(varying_string) :: differences
 
                 allocate(samples(sample_size))
                 the_rng = input%rng
@@ -51,7 +55,18 @@ contains
                     call the_rng%next(samples(i))
                 end do
                 distribution = get_distribution(samples, distribution_size)
-                result_ = assert_equals_within_relative(ideal_distribution, distribution, 0.05d0)
+                differences = report_differences( &
+                        expected = ideal_distribution, &
+                        actual = distribution, &
+                        absolute_tolerance = 0.0, &
+                        relative_tolerance = 0.05, &
+                        name = "distribution", &
+                        max_reported = 10)
+                if (differences == "") then
+                    result_ = succeed("distribution within tolerance: " // to_string(0.05) // "%")
+                else
+                    result_ = fail(differences)
+                end if
             end block
         class default
             result_ = fail("Didn't get an RNG")
@@ -61,9 +76,9 @@ contains
     pure function get_distribution(samples, num_bins) result(distribution)
         integer(int32), intent(in) :: samples(:)
         integer, intent(in) :: num_bins
-        double precision :: distribution(num_bins)
+        real :: distribution(num_bins)
 
-        double precision :: bin_width
+        real :: bin_width
         integer :: samples_in_bin(num_bins)
         integer :: i, bin
 
