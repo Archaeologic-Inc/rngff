@@ -5,6 +5,11 @@ author = "Brad Richardson"
 maintainer = "everythingfunctional@protonmail.com"
 copyright = "Copyright 2022, Brad Richardson"
 
+[dev-dependencies]
+veggies = { git = "https://gitlab.com/everythingfunctional/veggies.git", tag = "v1.0.5" }
+prune = { git = "https://gitlab.com/everythingfunctional/prune.git", tag = "v0.1.4" }
+iso_varying_string = { git = "https://gitlab.com/everythingfunctional/iso_varying_string.git", tag = "v3.0.3" }
+
 [[executable]]
 name="lcg_64bit_stream"
 source-dir="app"

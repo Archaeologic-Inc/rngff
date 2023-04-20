@@ -2,7 +2,7 @@
 ! This software was developed for the U.S. Nuclear Regulatory Commission (US NRC) under contract # 31310020D0006:
 ! "Technical Assistance in Support of NRC Nuclear Regulatory Research for Materials, Waste, and Reactor Programs"
 program main
-    use iso_fortran_env, only: int64
+    use, intrinsic :: iso_fortran_env, only: int64
     use rngff, only: linear_congruential_t
     use write_bytes, only: write_64bits
 

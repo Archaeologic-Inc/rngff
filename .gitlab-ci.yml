@@ -7,7 +7,7 @@ test:
   stage: test
   image: registry.gitlab.com/everythingfunctional/dockerfpm
   script:
-    - fpm build # TODO: use dieharder to test various implementations
+    - fpm test # TODO: use dieharder to test various implementations
 
 documentation:
   stage: documentation

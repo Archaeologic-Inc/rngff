@@ -1,5 +1,5 @@
 module write_bytes
-    use iso_c_binding, only: c_int32_t, c_int64_t
+    use, intrinsic :: iso_c_binding, only: c_int32_t, c_int64_t
 
     implicit none
     private
