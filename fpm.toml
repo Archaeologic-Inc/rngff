@@ -15,3 +15,8 @@ strff = { git = "https://gitlab.com/everythingfunctional/strff.git", tag = "v4.0
 name="lcg_64bit_stream"
 source-dir="app"
 main="lcg_64bit_stream.f90"
+
+[[executable]]
+name="lcg_32bit_stream"
+source-dir="app"
+main="lcg_32bit_stream.f90"
