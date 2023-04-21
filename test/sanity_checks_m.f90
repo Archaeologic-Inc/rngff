@@ -1,3 +1,6 @@
+! Copyright (c) 2022 Archaeologic, Inc., Brad Richardson
+! This software was developed for the U.S. Nuclear Regulatory Commission (US NRC) under contract # 31310020D0006:
+! "Technical Assistance in Support of NRC Nuclear Regulatory Research for Materials, Waste, and Reactor Programs"
 module sanity_checks_m
     use, intrinsic :: iso_fortran_env, only: int32, int64, real32, real64
     use iso_varying_string, only: varying_string, operator(==), operator(//)

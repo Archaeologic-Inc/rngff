@@ -1,3 +1,6 @@
+! Copyright (c) 2022 Archaeologic, Inc., Brad Richardson
+! This software was developed for the U.S. Nuclear Regulatory Commission (US NRC) under contract # 31310020D0006:
+! "Technical Assistance in Support of NRC Nuclear Regulatory Research for Materials, Waste, and Reactor Programs"
 module lcg_test
     use rngff, only: linear_congruential_t
     use sanity_checks_m, only: rng_input_t, sanity_checks, DISTRIBUTION_DESCRIPTION
