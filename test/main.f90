@@ -8,6 +8,9 @@ contains
         use lcg_test, only: &
                 lcg_lcg => &
                     test_lcg
+        use sm_test, only: &
+                sm_sm => &
+                    test_sm
         use veggies, only: test_item_t, test_that, run_tests
 
 
@@ -15,9 +18,10 @@ contains
         logical :: passed
 
         type(test_item_t) :: tests
-        type(test_item_t) :: individual_tests(1)
+        type(test_item_t) :: individual_tests(2)
 
         individual_tests(1) = lcg_lcg()
+        individual_tests(2) = sm_sm()
         tests = test_that(individual_tests)
 
 

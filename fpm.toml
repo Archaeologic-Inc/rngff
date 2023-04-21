@@ -17,6 +17,11 @@ source-dir="app"
 main="lcg_64bit_stream.f90"
 
 [[executable]]
+name="sm_64bit_stream"
+source-dir="app"
+main="sm_64bit_stream.f90"
+
+[[executable]]
 name="lcg_32bit_stream"
 source-dir="app"
 main="lcg_32bit_stream.f90"
