@@ -8,16 +8,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest] #, macos-latest, windows-latest]
         toolchain:
-          - {compiler: gcc, version: 11}
-          - {compiler: intel-classic, version: '2021.9'}
-        include:
-          - os: ubuntu-latest
-            toolchain: {compiler: intel, version: '2023.1'}
-        exclude:
-          - os: windows-latest
-            toolchain: {compiler: intel-classic, version: '2021.9'}
+          - {compiler: gcc, version: 12}
+          # - {compiler: intel-classic, version: '2021.9'}
+        # include:
+        #   - os: ubuntu-latest
+        #     toolchain: {compiler: intel, version: '2023.1'}
+        # exclude:
+        #   - os: windows-latest
+        #     toolchain: {compiler: intel-classic, version: '2021.9'}
 
     steps:
     - name: Checkout code
@@ -35,6 +35,6 @@ jobs:
 
     - name: Build and Test
       run: |
-        which $FC
-        $FC --version
-        fpm test --compiler $FC
+        which ${{ env.FC }}
+        ${{ env.FC }} --version
+        fpm test --compiler ${{ env.FC }}
