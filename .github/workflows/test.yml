@@ -25,10 +25,9 @@ jobs:
 
     - name: Setup for Fortran
       uses: awvwgk/setup-fortran@v1
-        id: setup-fortran
-        with:
-          compiler: ${{ matrix.toolchain.compiler }}
-          version: ${{ matrix.toolchain.version }}
+      with:
+        compiler: ${{ matrix.toolchain.compiler }}
+        version: ${{ matrix.toolchain.version }}
 
     - uses: fortran-lang/setup-fpm@v5
       with:
