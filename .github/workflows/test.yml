@@ -35,6 +35,6 @@ jobs:
 
     - name: Build and Test
       run: |
-        which ${{ FC }}
-        ${{ FC }} --version
-        fpm test --compiler ${{ FC }}
+        which $FC
+        $FC --version
+        fpm test --compiler $FC
