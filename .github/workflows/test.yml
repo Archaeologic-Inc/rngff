@@ -1,0 +1,41 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        toolchain:
+          - {compiler: gcc, version: 11}
+          - {compiler: intel-classic, version: '2021.9'}
+        include:
+          - os: ubuntu-latest
+            toolchain: {compiler: intel, version: '2023.1'}
+        exclude:
+          - os: windows-latest
+            toolchain: {compiler: intel-classic, version: '2021.9'}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup for Fortran
+      uses: awvwgk/setup-fortran@v1
+        id: setup-fortran
+        with:
+          compiler: ${{ matrix.toolchain.compiler }}
+          version: ${{ matrix.toolchain.version }}
+
+    - uses: fortran-lang/setup-fpm@v5
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Build and Test
+      run: |
+        which ${{ FC }}
+        ${{ FC }} --version
+        fpm test --compiler ${{ FC }}
