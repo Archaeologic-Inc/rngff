@@ -11,20 +11,18 @@ module sanity_checks_m
             input_t, &
             result_t, &
             test_item_t, &
+            describe, &
             fail, &
             it_, &
             succeed
 
     implicit none
     private
-    public :: rng_input_t, sanity_checks, DISTRIBUTION_DESCRIPTION
+    public :: rng_input_t, sanity_checks
 
     type, extends(input_t) :: rng_input_t
         class(RNG_t), allocatable :: rng
     end type
-
-    character(len=*), parameter :: DISTRIBUTION_DESCRIPTION = &
-            "should produce a uniform distribution of numbers"
 
     interface get_distribution
         module procedure get_distribution_int32
@@ -38,15 +36,19 @@ module sanity_checks_m
     real, parameter :: absolute_tolerance = 0.0
     real, parameter :: relative_tolerance = 0.03
 contains
-    function sanity_checks() result(tests)
-        type(test_item_t), allocatable :: tests(:)
+    function sanity_checks(name, rng) result(tests)
+        character(len=*), intent(in) :: name
+        type(rng_input_t) :: rng
+        type(test_item_t) :: tests
 
-        tests = &
+        tests = describe( &
+                "The " // name // " generator should produce a uniform distribution of numbers", &
+                rng, &
                 [ it_("between -huge and huge for 32 bit integers", check_32bit_int_distribution) &
                 , it_("between -huge and huge for 64 bit integers", check_64bit_int_distribution) &
                 , it_("between -huge and huge for 32 bit reals", check_32bit_real_distribution) &
                 , it_("between -huge and huge for 64 bit reals", check_64bit_real_distribution) &
-                ]
+                ])
     end function
 
     function check_32bit_int_distribution(input) result(result_)
