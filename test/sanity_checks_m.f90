@@ -11,6 +11,7 @@ module sanity_checks_m
             input_t, &
             result_t, &
             test_item_t, &
+            assert_that, &
             describe, &
             fail, &
             it_, &
@@ -42,13 +43,38 @@ contains
         type(test_item_t) :: tests
 
         tests = describe( &
-                "The " // name // " generator should produce a uniform distribution of numbers", &
+            "The " // name // " generator", &
+            rng, &
+            [ it_("doesn't produce the same number in a row", check_no_repeat) &
+            , describe("should produce a uniform distribution of numbers", &
                 rng, &
                 [ it_("between -huge and huge for 32 bit integers", check_32bit_int_distribution) &
                 , it_("between -huge and huge for 64 bit integers", check_64bit_int_distribution) &
                 , it_("between -huge and huge for 32 bit reals", check_32bit_real_distribution) &
                 , it_("between -huge and huge for 64 bit reals", check_64bit_real_distribution) &
-                ])
+                ]) &
+            ])
+    end function
+
+    function check_no_repeat(input) result(result_)
+        class(input_t), intent(in) :: input
+        type(result_t) :: result_
+
+        select type (input)
+        type is (rng_input_t)
+        block
+            integer(int32) :: fst, snd
+            class(RNG_t), allocatable :: the_rng
+
+            the_rng = input%rng
+            call the_rng%next(fst)
+            call the_rng%next(snd)
+
+            result_ = assert_that(fst /= snd, "Got " // to_string(fst) // " and " // to_string(snd))
+        end block
+        class default
+            result_ = fail("Didn't get an RNG")
+        end select
     end function
 
     function check_32bit_int_distribution(input) result(result_)
