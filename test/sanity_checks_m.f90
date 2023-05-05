@@ -46,7 +46,7 @@ contains
             "The " // name // " generator", &
             rng, &
             [ it_("doesn't produce the same number in a row", check_no_repeat) &
-            , describe("should produce a uniform distribution of numbers", &
+            , describe("produces a uniform distribution of numbers", &
                 rng, &
                 [ it_("between -huge and huge for 32 bit integers", check_32bit_int_distribution) &
                 , it_("between -huge and huge for 64 bit integers", check_64bit_int_distribution) &
