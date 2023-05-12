@@ -33,11 +33,12 @@ uint64_t mix64variant13(uint64_t z0) {
 }
 
 int pop_count(uint64_t x) {
-    uint64_t acc = 0;
-    for (int n = 0; n < 64; n++) {
-        acc += x / pow((uint64_t)(2), n);
+    int c = 0;
+    for (c = 0; x; c++)
+    {
+        x &= x - 1; // clear the least significant bit set
     }
-    return (int)(x - acc);
+    return c;
 }
 
 uint64_t mix_gamma(uint64_t z0) {
@@ -65,7 +66,7 @@ SMState split_c(SMState* state) {
     uint64_t seed_ = state->seed + state->gamma;
     uint64_t seed__ = seed_ + state->gamma;
     SMState split_state;
-    set_state_c(&state, mix64(seed_), mix_gamma(seed__));
+    set_state_c(&split_state, mix64(seed_), mix_gamma(seed__));
     state->seed = seed__;
     return split_state;
 }

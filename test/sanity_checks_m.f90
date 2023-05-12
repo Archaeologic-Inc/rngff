@@ -5,7 +5,7 @@ module sanity_checks_m
     use, intrinsic :: iso_fortran_env, only: int32, int64, real32, real64
     use iso_varying_string, only: varying_string, operator(==), operator(//)
     use prune, only: report_differences
-    use rngff, only: RNG_t
+    use rngff, only: RNG_t, splitable_RNG_t
     use strff, only: to_string
     use veggies, only: &
             input_t, &
@@ -46,6 +46,7 @@ contains
             "The " // name // " generator", &
             rng, &
             [ it_("doesn't produce the same number in a row", check_no_repeat) &
+            , it_("once split, doesn't produce the same number", check_split_distinct) &
             , describe("produces a uniform distribution of numbers", &
                 rng, &
                 [ it_("between -huge and huge for 32 bit integers", check_32bit_int_distribution) &
@@ -72,6 +73,33 @@ contains
 
             result_ = assert_that(fst /= snd, "Got " // to_string(fst) // " and " // to_string(snd))
         end block
+        class default
+            result_ = fail("Didn't get an RNG")
+        end select
+    end function
+
+    function check_split_distinct(input) result(result_)
+        class(input_t), intent(in) :: input
+        type(result_t) :: result_
+
+        select type (input)
+        type is (rng_input_t)
+            select type (the_rng => input%rng)
+            class is (splitable_RNG_t)
+            block
+                integer(int32) :: fst, snd
+                class(splitable_RNG_t), allocatable :: orig, splt
+
+                orig = the_rng
+                call orig%split(splt)
+                call orig%next(fst)
+                call orig%next(snd)
+
+                result_ = assert_that(fst /= snd, "Got " // to_string(fst) // " and " // to_string(snd))
+            end block
+            class default
+                result_ = succeed("Isn't splitable")
+            end select
         class default
             result_ = fail("Didn't get an RNG")
         end select
