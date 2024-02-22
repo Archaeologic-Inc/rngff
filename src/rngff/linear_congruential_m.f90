@@ -50,7 +50,7 @@ contains
         call self%next(tmp)
         negative = tmp >= 0.5 ! Use the "first bit" of tmp as a sign
         tmp = 2*tmp - merge(1, 0, negative) ! Drop the "first bit" of tmp
-        harvest = tmp * huge(harvest) * merge(-1, 1, negative)
+        harvest = int(tmp * huge(harvest) * merge(-1, 1, negative), kind=int32)
     end subroutine
 
     elemental subroutine next_int64(self, harvest)
@@ -63,7 +63,7 @@ contains
         call self%next(tmp)
         negative = tmp >= 0.5 ! Use the "first bit" of tmp as a sign
         tmp = 2*tmp - merge(1, 0, negative) ! Drop the "first bit" of tmp
-        harvest = tmp * huge(harvest) * merge(-1, 1, negative)
+        harvest = int(tmp * real(huge(harvest), kind=real64) * merge(-1, 1, negative), kind=int64)
     end subroutine
 
     elemental subroutine next_real32(self, harvest)
@@ -84,7 +84,7 @@ contains
 
         z = self%seeds_(1) - self%seeds_(2)
         if (z<1) z = z + m(1) - 1
-        harvest = z * over_m1
+        harvest = real(z * over_m1, kind=real32)
         if (harvest >= 1) harvest = 0
     end subroutine
 

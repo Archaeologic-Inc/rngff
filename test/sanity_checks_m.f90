@@ -265,7 +265,7 @@ contains
         samples_in_bin = 0
         bin_width = (real(huge(samples)) / num_bins) * 2
         do i = 1, size(samples)
-            bin = floor(samples(i)/bin_width + huge(samples)/bin_width) + 1
+            bin = floor(samples(i)/bin_width + real(huge(samples), kind=real32)/bin_width) + 1
             samples_in_bin(bin) = samples_in_bin(bin) + 1
         end do
         distribution = real(samples_in_bin, kind(distribution)) / size(samples)
@@ -283,7 +283,7 @@ contains
         samples_in_bin = 0
         bin_width = (real(huge(samples)) / num_bins) * 2
         do i = 1, size(samples)
-            bin = floor(samples(i)/bin_width + huge(samples)/bin_width) + 1
+            bin = floor(real(samples(i), kind=real32)/bin_width + real(huge(samples), kind=real32)/bin_width) + 1
             samples_in_bin(bin) = samples_in_bin(bin) + 1
         end do
         distribution = real(samples_in_bin, kind(distribution)) / size(samples)
